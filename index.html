@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Music Player Design</title>
+    <script src="https://kit.fontawesome.com/9e469938f9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="music-player">
+            <nav>
+                <div class="circle">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </div>
+                <div><img class="" id="rotateImg" src="media/musicLogo.jpg" style="width: 80px;border-radius: 50%; " alt=""></div>
+                <div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+            <img src="media/background-image.jpeg" class="song-img anime" alt="">
+            <h1 id="title">DAspacito</h1>
+            <p id="artist">Luis Fonsi Ft. Rican</p>
+
+            <audio controls id="song" src="songs/song1.mp3" style="margin: 10px;height: 30px;"></audio>
+            <!-- <input type="range" value="0" id="progress"> -->
+            <div class="controls">
+                <div><i class="fa-solid fa-backward" id="previous" title="previous"></i></div>
+                <div><i class="fa-solid fa-play" id="playBtn" title="play"></i></div>
+                <div><i class="fa-solid fa-forward" id="next" title="next"></i></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let progress = document.getElementById("progress");
+        let song = document.querySelector("audio")
+        let playBtn = document.getElementById("playBtn");
+        let artist = document.getElementById("artist");
+        let title = document.getElementById("title");
+        let previous = document.getElementById("previous");
+        let next = document.getElementById("next");
+        let rotateImg = document.getElementById("rotateImg");
+        let isPlaying = false;
+       
+        const songs=[{
+            name:"song1",
+            title:"DAspacito",
+            artist:"Luis Fonsi Ft. Rican"
+        },{
+            name:"song2",
+            title:"kya-bolti-public",
+            artist:"Eimway Bantai"
+        },{
+            name:"song3",
+            title:"B-praank",
+            artist:"Filhaal 2"
+        },
+        {
+            name:"song4",
+            title:"B-praank",
+            artist:"Adha Main Adhi Vo"
+        }]
+      
+
+        const playMusic=()=>{
+           isPlaying=true;
+             song.play();
+             playBtn.classList.replace("fa-play","fa-pause")  
+            rotateImg.classList.add("anime")
+        };
+        const pauseMusic=()=>{
+           isPlaying=false;
+             song.pause();
+            rotateImg.classList.remove("anime")
+            playBtn.classList.replace("fa-pause","fa-play")  
+        }
+
+        playBtn.addEventListener("click",()=>{
+               isPlaying? pauseMusic():playMusic();
+        })
+
+        const loadSong=(songs)=>{
+            title.textContent=songs.title;
+            artist.textContent=songs.artist;
+            song.src=`songs/${songs.name}.mp3`;
+        }
+         songIndex=0;
+    //    loadSong(songs[index])
+       const nextSong=()=>{
+        songIndex = (songIndex+1)%songs.length;
+        loadSong(songs[songIndex]);
+        playMusic();
+
+       }
+       const previousSong=()=>{
+        songIndex=(songIndex-1+songs.length)%songs.length;
+        loadSong(songs[songIndex])
+        playMusic();
+       }
+
+       next.addEventListener("click",nextSong)
+       previous.addEventListener("click",previousSong)
+
+        // if(song.play()){
+        //     setInterval(()=>{
+        //         progress.value=song.currentTIme; 
+        //     },500)
+        // }
+
+        // progress.onchange=function(){
+        //     song.play();
+        //     song.currentTIme=progress.value;
+        //     ctrlIcon.classList.remove("fa-pause");
+        //         ctrlIcon.classList.add("fa-play");
+        // }
+    </script>
+</body>
+</html>
